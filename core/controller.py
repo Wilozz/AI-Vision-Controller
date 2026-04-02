@@ -1,8 +1,10 @@
 from pynput.keyboard import Key, Controller
+from pynput.mouse import Controller as MouseController
 
 class KeyboardController:
     def __init__(self):
         self.keyboard = Controller()
+        self.mouse = MouseController()
         self.current_gesture = None
 
         self.gesture_map = {
@@ -24,3 +26,7 @@ class KeyboardController:
 
         if gesture and gesture in self.gesture_map:
             self.keyboard.press(self.gesture_map[gesture])
+
+    def scroll(self, speed):
+        if speed > 0:
+            self.mouse.scroll(0, -speed)

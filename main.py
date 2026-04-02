@@ -15,8 +15,13 @@ while True:
 
     frame = recogniser.find_hands(frame)
     gesture = recogniser.get_gesture(frame)
+    landmarks = recogniser.get_landmarks(frame)
 
     controller.handle(gesture)
+
+    if gesture == "point" and landmarks:
+        speed = recogniser.get_scroll_speed(landmarks)
+        controller.scroll(speed)
 
     if gesture:
         cv2.putText(frame, gesture, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 2)
