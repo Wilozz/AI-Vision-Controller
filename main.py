@@ -1,9 +1,9 @@
 import cv2
 from core.camera import CameraStream
-from core.tracker import HandTracker
+from core.recogniser import GestureRecogniser
 
 cam = CameraStream()
-tracker = HandTracker()
+recogniser = GestureRecogniser()
 
 while True:
     frame = cam.read()
@@ -11,8 +11,12 @@ while True:
     if frame is None:
         break
 
-    frame = tracker.find_hands(frame)
-    
+    frame = recogniser.find_hands(frame)
+    gesture = recogniser.get_gesture(frame)
+
+    if gesture:
+        cv2.putText(frame, gesture, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 2)
+
     cv2.imshow("Gesture Controller", frame)
 
     # Press q on the window to close 
