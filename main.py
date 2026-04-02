@@ -1,7 +1,9 @@
 import cv2
 from core.camera import CameraStream
+from core.tracker import HandTracker
 
 cam = CameraStream()
+tracker = HandTracker()
 
 while True:
     frame = cam.read()
@@ -9,6 +11,8 @@ while True:
     if frame is None:
         break
 
+    frame = tracker.find_hands(frame)
+    
     cv2.imshow("Gesture Controller", frame)
 
     # Press q on the window to close 
